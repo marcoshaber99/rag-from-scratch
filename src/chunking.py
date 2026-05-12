@@ -6,9 +6,15 @@ tokenizer = tiktoken.encoding_for_model(EMBEDDING_MODEL)
 
 print(tokenizer)
 
-def chunk_document(text: str, document_name: str, chunk_size_tokens: int=500, overlap_tokens: int=100):
 
-    if overlap_tokens >=chunk_size_tokens:
+def chunk_document(
+    text: str,
+    document_name: str,
+    chunk_size_tokens: int = 500,
+    overlap_tokens: int = 100,
+):
+
+    if overlap_tokens >= chunk_size_tokens:
         raise ValueError("overlap number must be less than chunk size")
 
     # tokenize
@@ -17,18 +23,18 @@ def chunk_document(text: str, document_name: str, chunk_size_tokens: int=500, ov
 
     if total_tokens <= chunk_size_tokens:
         return [
-             {
+            {
                 "document_name": document_name,
                 "chunk_index": 0,
                 "text": text,
                 "token_count": total_tokens,
-                "char_count": len(text)
-             }
+                "char_count": len(text),
+            }
         ]
-    step = chunk_size_tokens-overlap_tokens
+    step = chunk_size_tokens - overlap_tokens
     chunks = []
-    start=0
-    chunk_index=0
+    start = 0
+    chunk_index = 0
 
     while start < total_tokens:
         end = start + chunk_size_tokens
@@ -45,12 +51,10 @@ def chunk_document(text: str, document_name: str, chunk_size_tokens: int=500, ov
             }
         )
 
-        if end >=total_tokens:
+        if end >= total_tokens:
             break
-
 
         start += step
         chunk_index += 1
 
     return chunks
-

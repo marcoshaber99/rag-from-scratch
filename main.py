@@ -1,21 +1,16 @@
-from pathlib import Path
-from src.chunking import chunk_document
+from src.embedding import embed_text
 
 def main():
-    # Read a long document from the corpus
-    file_path = Path("corpus/git-worktrees.md")
-    text = file_path.read_text(encoding="utf-8")
+    text = "Cyprus property regulations include VAT reductions for primary residences."
+    print(f"Embedding text: {text!r}")
+    print()
 
-    chunks = chunk_document(text, document_name=file_path.name)
+    vector = embed_text(text)
 
-    print(f"Document: {file_path.name}")
-    print(f"Source: {len(text)} characters")
-    print(f"Produced {len(chunks)} chunks\n")
-
-    for chunk in chunks:
-        print(f"Chunk {chunk['chunk_index']}: "
-              f"{chunk['token_count']} tokens, "
-              f"{chunk['char_count']} chars")
+    print(f"Vector length: {len(vector)}")
+    print(f"First 5 values: {vector[:5]}")
+    print(f"Last 5 values: {vector[-5:]}")
+    print(f"Sum: {sum(vector):.4f}")
 
 if __name__ == "__main__":
     main()
