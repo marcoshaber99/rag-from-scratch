@@ -4,8 +4,6 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 
 tokenizer = tiktoken.encoding_for_model(EMBEDDING_MODEL)
 
-print(tokenizer)
-
 
 def chunk_document(
     text: str,
